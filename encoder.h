@@ -1,0 +1,6 @@
+#ifndef LISNR_PROJECT_ENCODER_H
+#define LISNR_PROJECT_ENCODER_H
+
+void hello();
+
+#endif //LISNR_PROJECT_ENCODER_H
