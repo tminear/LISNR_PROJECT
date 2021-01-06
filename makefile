@@ -1,7 +1,7 @@
 CFLAGS = -Wall -std=c++14
 
 build: main.o encoder.o
-	g++ $(CFLAGS) main.o encoder.o -o encoder
+	g++ $(CFLAGS) -lcurl main.o encoder.o -o encoder
 
 main.o: main.cpp encoder.h
 	g++ -c $(CFLAGS) main.cpp
