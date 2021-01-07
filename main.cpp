@@ -25,6 +25,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 
 #include "curl/curl.h"
 #include "encoder.h"
@@ -38,19 +39,21 @@
  */
 int main(int argc, char** argv)
 {
-	if (argc < 2)
+	if (argc < 3)
 	{
-		printf("Usage: %s <url>\n", argv[0]);
+		printf("Usage: %s <url> <output file>\n", argv[0]);
 		return -1;
 	}
 
-	std::string curl_data = fetch_image(argv[1]);
+	std::vector<unsigned char> curl_data = fetch_image(argv[1]);
 
 	if (curl_data.empty())
 	{
 		printf("Failed to download file: %s\n", argv[1]);
 		return -1;
 	}
+
+	encode(curl_data, argv[2]);
 
 	return 0;
 }
