@@ -35,14 +35,14 @@
  *
  * @param argc - Number of command line arguments
  * @param argv - Command Line Arguments
- * @return 0 for EXIT_SUCCESS, -1 for Failure
+ * @return EXIT_SUCCESS or EXIT_FAILURE
  */
 int main(int argc, char** argv)
 {
 	if (argc < 3)
 	{
 		printf("Usage: %s <url> <output file>\n", argv[0]);
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	std::vector<unsigned char> curl_data = fetch_image(argv[1]);
@@ -50,10 +50,10 @@ int main(int argc, char** argv)
 	if (curl_data.empty())
 	{
 		printf("Failed to download file: %s\n", argv[1]);
-		return -1;
+		return EXIT_FAILURE;
 	}
 
 	encode(curl_data, argv[2]);
 
-	return 0;
+	return EXIT_SUCCESS;
 }
