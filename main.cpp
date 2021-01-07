@@ -25,22 +25,35 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <vector>
 
+#include "curl/curl.h"
 #include "encoder.h"
 
 /**
  * Main executable for LISNR_PROJECT library, will be used to test functions from library
  *
- *
  * @param argc - Number of command line arguments
  * @param argv - Command Line Arguments
- * @return 0 for EXIT_SUCCESS, -1 for Failure
+ * @return EXIT_SUCCESS or EXIT_FAILURE
  */
+int main(int argc, char** argv)
+{
+	if (argc < 3)
+	{
+		printf("Usage: %s <url> <output file>\n", argv[0]);
+		return EXIT_FAILURE;
+	}
 
-int main (int argc, char *argv[]) {
+	std::vector<unsigned char> curl_data = fetch_image(argv[1]);
 
-    hello();
+	if (curl_data.empty())
+	{
+		printf("Failed to download file: %s\n", argv[1]);
+		return EXIT_FAILURE;
+	}
 
-    return 0;
+	encode(curl_data, argv[2]);
 
+	return EXIT_SUCCESS;
 }
