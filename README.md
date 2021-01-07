@@ -18,4 +18,4 @@ make build
 
 ## Dependencies
 
-* cURL - curl/curl.h
+* cURL - curl/curl.h (http://curl.haxx.se/download.html)
