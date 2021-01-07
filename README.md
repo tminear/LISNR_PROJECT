@@ -2,6 +2,8 @@
 
 This project's specifications were created by LISNR to see applicants qualifications
 
+* https://github.com/tminear/LISNR_PROJECT
+
 ## Installation
 
 makefile provided for ease of use, designated for target main.cpp
