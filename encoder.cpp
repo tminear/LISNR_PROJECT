@@ -74,10 +74,14 @@ std::vector<unsigned char> fetch_image(char* url)
  */
 void encode(std::vector<unsigned char> data, std::string fileName){
 
-	//dealing with 24-bits at a time so this covers if the vector is not a multiple of 3
-	if((data.size() % 3) != 0){
+	//Add padding to data vector to be a multiple of 3 (= chosen in compliance with RFC 4880)
+	//3 is chosen here because it is the lowest common multiple of base64 and unsigned char
+	// (unsigned char)  8 bits
+	// (Base64)         6 bits
+	// lowest commone multiple = 24: (8x3) and (6x4)
+	if((data.size() % 8) != 0){
 		for(size_t i = 0; i < data.size() % 3; ++i){
-			data.push_back('\0');
+			data.push_back('=');
 		}
 	}
 
@@ -85,15 +89,16 @@ void encode(std::vector<unsigned char> data, std::string fileName){
 	std::ofstream outFile;
 	outFile.open(fileName);
 
-	//24 bits is the smallest chunk to break the
+	//24 bits is the smallest chunk to break the data stream into, iterating by 3 to grab 4 6-bit chunks
 	for(size_t i = 0; i < data.size(); i+=3){
 
-		//Base64 inserts newlines every 76 characters,
+		//Base64 inserts newlines every 76 characters, according to RFC 4880
 		if(i % 19 == 0 && i != 0){
 			outFile << '\n';
 		}
 
 		//grab three bytes at a time to break into 4 6-bit chunks
+		// 3 bytes = 24 bits -> converted to 4: 6-bit chunks
 		std::string bytes = std::bitset<8>(data[i]).to_string() + std::bitset<8>(data[i+1]).to_string()
 				+ std::bitset<8>(data[i+2]).to_string();
 
@@ -107,4 +112,3 @@ void encode(std::vector<unsigned char> data, std::string fileName){
 	outFile.close();
 
 }
-
